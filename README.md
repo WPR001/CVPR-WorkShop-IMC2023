@@ -58,6 +58,8 @@ In this code competition, you’ll create a machine learning algorithm that regi
 
 If successful, you'll help solve this well-known problem in computer vision, making it possible to map the world with unstructured image collections. Your solutions will have applications in photography and cultural heritage preservation, along with Google Maps. Winners will also be invited to give a presentation as part of the Image Matching: Local Features and Beyond workshop at the Conference on Computer Vision and Pattern Recognition (CVPR) in June.
 
+
+
 ##### Evaluation
 
 ###### Evaluation metric
@@ -85,7 +87,51 @@ etc
 
 Note that `fundamental_matrix` is a 3×33×3 matrix, flattened into a vector in row-major order.
 
-##### Explore Data Analysis(EDA)
+
+
+##### Explore Data Analysis (EDA)
+
+Data files [[link](https://www.kaggle.com/competitions/image-matching-challenge-2022/data)]
+
+###### Dataset Description
+
+Aligning photographs of the same scene is a problem of longstanding interest to computer vision researchers. Your challenge in this competition is to generate mappings between pairs of photos from various cities.
+
+This competition uses a hidden test. When your submitted notebook is scored, the actual test data (including a sample submission) will be made available to your notebook.
+
+###### Files
+
+**train/\*/calibration.csv**
+
+- `image_id`: The image filename.
+- `camera_intrinsics`: The 3×3 calibration matrix **𝐊** for this image, flattened into a vector by row-major indexing.
+- `rotation_matrix`: The 3×3 rotation matrix **𝐑** for this image, flattened into a vector by row-major indexing.
+- `translation_vector`: The translation vector **𝐓**.
+
+**train/\*/pair_covisibility.csv**
+
+- `pair`: A string identifying a pair of images, encoded as two image filenames (without the extension) separated by a hyphen, as `key1-key2`, where `key1` > `key2`.
+- `covisibility`: An estimate of the overlap between the two images. Higher numbers indicate greater overlap. We recommend using all pairs with a covisibility estimate of 0.1 or above. The procedure used to derive this number is described in Section 3.2 and Figure 5 of [this paper](https://arxiv.org/pdf/2003.01587.pdf).
+- `fundamental_matrix`: The target column as derived from the calibration files. Please see the [problem definition page](https://www.kaggle.com/competitions/image-matching-challenge-2022/overview/problem-definition) for more details.
+
+**train/scaling_factors.csv** The poses for each scene where reconstructed via [Structure-from-Motion](https://en.wikipedia.org/wiki/Structure_from_motion), and are only accurate up to a scaling factor. This file contains a scalar for each scene which can be used to convert them to meters. For code examples, please refer to [this notebook](https://www.kaggle.com/eduardtrulls/imc2022-tutorial-load-and-evaluate-training-data).
+
+**train/\*/images/** A batch of images all taken near the same location.
+
+**train/LICENSE.txt** Records of the specific source of and license for each image.
+
+**sample_submission.csv** A valid sample submission.
+
+- `sample_id`: The unique identifier for the image pair.
+- `fundamental_matrix`: The target column. Please see the [problem definition page](https://www.kaggle.com/competitions/image-matching-challenge-2022/overview/problem-definition) for more details. The default values are randomly generated.
+
+**test.csv** Expect to see roughly 10,000 pairs of images in the hidden test set.
+
+- `sample_id`: The unique identifier for the image pair.
+- `batch_id`: The batch ID.
+- `image_[1/2]_id`: The filenames of each image in the pair.
+
+**test_images** The test set. The test data comes from a different source than the train data and contains photos of mostly urban scenes with variable degrees of overlap. The two images forming a pair may have been collected months or years apart, but never less than 24 hours. Bridging this domain gap is part of the competition. The images have been resized so that the longest edge is around 800 pixels, may have different aspect ratios (including portrait and landscape), and are upright.
 
 
 
@@ -96,6 +142,8 @@ Note that `fundamental_matrix` is a 3×33×3 matrix, flattened into a vector in 
 The goal of this competition is to reconstruct accurate 3D maps. Last year's [Image Matching Challenge](https://www.kaggle.com/competitions/image-matching-challenge-2022/overview) focused on two-view matching. This year you will take one step further: your task will be to reconstruct the 3D scene from many different views.
 
 Your work could be the key to unlocking mapping the world from assorted and noisy data sources, such as images uploaded by users to services like Google Maps.
+
+
 
 ##### Evaluation
 
@@ -129,11 +177,79 @@ etc
 
 The `rotation_matrix` (a 3×33×3 matrix) and `translation_vector` (a 3-D vector) are written as `;`-separated vectors. Matrices are flattened into vectors in row-major order. Note that this metric does not require the intrinsics (the calibration matrix **𝐊**), usually estimated along with **𝐑** and **𝐓** during the 3D reconstruction process.
 
-##### Explore Data Analysis(EDA)
+
+
+##### Explore Data Analysis (EDA)
+
+Data files [[link](https://www.kaggle.com/competitions/image-matching-challenge-2023/data)]
+
+###### Dataset Description
+
+Building a 3D model of a scene given an unstructured collection of images taken around it is a longstanding problem in computer vision research. Your challenge in this competition is to generate 3D reconstructions from image sets showing different types of scenes and accurately pose those images.
+
+This competition uses a hidden test. When your submitted notebook is scored, the actual test data (including a sample submission) will be made available to your notebook. Expect to find roughly 1,100 images in the hidden test set. The number of images in a scene may vary from <10 to ~250.
+
+Parts of the dataset (the Haiper subset) were created with the Captur3 app and the Haiper Research team from Haiper AI.
+
+###### Files
+
+**sample_submission.csv** A valid, randomly-generated sample submission with the following fields:
+
+- `image_path`: The image filename, including the path.
+- `dataset`: The unique identifier for the dataset.
+- `scene`: The unique identifier for the scene.
+- `rotation_matrix`: The first target column. A 3×3 matrix, flattened into a vector in row-major convection, with values separated by `;`.
+- `translation_vector`: The second target column. A 3-D dimensional vector, with values separated by `;`.
+
+**[train/test]/\*/\*/images** A batch of images all taken near the same location. Some of training datasets may also contain a folder named **images_full** with additional images.
+
+**train/\*/\*/sfm** A 3D reconstruction for this batch of images, which can be opened with [colmap](https://colmap.github.io/), the 3D structure-from-motion library bundled with this competition.
+
+**train/\*/\*/LICENSE.txt** The license for this dataset.
+
+**train/train_labels.csv** A list of images in these datasets, with ground truth.
+
+- `dataset`: The unique identifier for the dataset.
+- `scene`: The unique identifier for the scene.
+- `image_path`: The image filename, including the path.
+- rotation_matrix: The first target column. A 3×33×3 matrix, flattened into a vector in row-major convection, with values separated by `;`.
+- translation_vector: The second target column. A 3-D dimensional vector, with values separated by `;`.
 
 
 
 ### Basic knowledge
+
+#### 3D computer vision 
+
+
+
+![image-20220611155358501](/Users/wupeiran/Desktop/2022-06-13 IMC2022 讲解班/IMC_Readme.assets/image-20220611155358501.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+![img](https://p16k354a21.feishu.cn/space/api/box/stream/download/asynccode/?code=YmE0ZjRkY2VjNzhkMzg4ZjBiZjM3Nzg5ZTVhYjY1NTNfT29uUGZjRVBMR3A3dThWY1FkYWtTbGg5Sm1VdXlvZ3JfVG9rZW46RXZTMGJhRVlQb3pwVTR4WHZ4eWN4TlpXbmNkXzE2ODc1NDE5NjI6MTY4NzU0NTU2Ml9WNA)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
