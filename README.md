@@ -223,7 +223,6 @@ Parts of the dataset (the Haiper subset) were created with the Captur3 app and t
 
 
 
-![image-20220611155358501](/Users/wupeiran/Desktop/2022-06-13 IMC2022 讲解班/IMC_Readme.assets/image-20220611155358501.png)
 
 
 
@@ -232,13 +231,13 @@ Parts of the dataset (the Haiper subset) were created with the Captur3 app and t
 
 
 
+![image-20220611155358501](https://github.com/WPR001/CVPR-WorkShop-IMC2023/assets/77914093/6702cd2e-be1d-4454-a683-b9cd6d74fbfe)
 
 
 
 
 
-![img](https://p16k354a21.feishu.cn/space/api/box/stream/download/asynccode/?code=YmE0ZjRkY2VjNzhkMzg4ZjBiZjM3Nzg5ZTVhYjY1NTNfT29uUGZjRVBMR3A3dThWY1FkYWtTbGg5Sm1VdXlvZ3JfVG9rZW46RXZTMGJhRVlQb3pwVTR4WHZ4eWN4TlpXbmNkXzE2ODc1NDE5NjI6MTY4NzU0NTU2Ml9WNA)
-
+<img width="477" alt="截屏2023-06-24 13 41 47" src="https://github.com/WPR001/CVPR-WorkShop-IMC2023/assets/77914093/e5c12e88-250b-485d-89b2-74c0733c6f5a">
 
 
 
