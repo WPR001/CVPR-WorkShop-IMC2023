@@ -221,38 +221,32 @@ Parts of the dataset (the Haiper subset) were created with the Captur3 app and t
 
 #### 3D computer vision 
 
-
-
-
-
-
-
-
-
-
+The goal of the competition is to estimate the relative pose between two images. This requires some knowledge of projection and antipolar geometry, especially in the following areas:
+• The calibration matrix **K** captures the determination of 3D points and 2D(pixel) coordinates. Convert between camera properties. It is also known as the camera intrinsic function.
+• The rotation matrix **R** and translation vector capture the 6-DOF attitude (position and orientation) of the phase machine in the global reference frame. They are collectively known as Camera exterior.
+• The basic matrix **F** encapsulates the projection between two views of the same scene Geometry. It is not affected by the content in the scene, only depends on the inside and outside of the two cameras.
 
 ![image-20220611155358501](https://github.com/WPR001/CVPR-WorkShop-IMC2023/assets/77914093/6702cd2e-be1d-4454-a683-b9cd6d74fbfe)
 
+Antipolar geometry
+If we only look at one camera, we can't know the depth information, but if we have two cameras (like a person with two eyes) we can get the depth information.
+As shown in the figure, **O_L ** and **O_R ** are two camera centers, **X** is where the object is located, if we only look at the dot **X_L** on the left image, we can not know where the object is (**X_1**, **X_2** or other places). But with **X_R** on the right we get the object point **X**.
 
-
-
+- In the figure, **O_L** and **O_R** in the center of the two cameras are connected as the baseline, and the plane **X** , **O_L** , **O_R** becomes the antipolar plane. The intersection lines **I** and **I'** between the antipolar plane and the images of the two cameras are called the antipolar line. The **O_L** and **O_R** with two images of the node **e_L**, **e_R** is on the pole.
+- As the observation point **X**moves up and down, the opposite pole plane will also rotate around the baseline, and the opposite pole will not change when the opposite pole is rotated, and all the opposite poles on the camera image will intersect with the opposite pole, which is the image of another camera center on its image, and the same opposite pole can be outside the image.
 
 <img width="477" alt="截屏2023-06-24 13 41 47" src="https://github.com/WPR001/CVPR-WorkShop-IMC2023/assets/77914093/e5c12e88-250b-485d-89b2-74c0733c6f5a">
 
+Essential matrix and fundamental matrix
+There are two important matrices in 3D computer vision: the Essential matrix and the Fundamental Matrix. Both are 3x3 matrices that encode the polar geometry of the scene.
 
+Essential matrix
+The geometric representation is easy to understand, but the computer does not understand it, and we will translate it into algebraic form.
+We know that camera 1 to camera 2 is a rigid body motion, then the coordinates of the observation point P in camera 1 coordinate system can be transformed by rigid body into P'=RP+T in camera 2 coordinate system, where R and T represent rotation and displacement respectively.
+If we cross it left by a T, that is, T×P'=T×RP+T×T=T×RP. Where T×P' represents the normal of the opposite polar plane, and if you dot another P' left, you get: P' (T×P') =P'× (T×RP). Since P' is perpendicular to the normal TxP', we have: 0=P'× (T×RP), and we know that the cross product of two vectors can be converted to the dot product of the antisymmetric matrix of one vector with the other, thus: P'× (T×RP) =P'[T×]RP=0, [T×] represents the antisymmetric matrix of T, we let E=[T×] R, then P 'ep =0, this E is the essential matrix.
 
-
-
-
-
-
-
-
-
-
-
-
-
+Fundamental Matrix
+The basic matrix F encapsulates the projection geometry between two views of the same scene. It is not affected by the content in the scene, and only depends on the internal and external parameters of the two cameras.
 
 ## IMC2022 gold medal  solution
 
